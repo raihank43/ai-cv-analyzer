@@ -1,0 +1,26 @@
+{
+  "functions": {
+    "app/api/ocr/route.ts": {
+      "maxDuration": 30
+    }
+  },
+  "headers": [
+    {
+      "source": "/pdf.worker.min.js",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript"
+        },
+        {
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "require-corp"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        }
+      ]
+    }
+  ]
+}
