@@ -11,7 +11,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import {
   Brain,
@@ -31,7 +30,6 @@ import {
   Hash,
   Star,
   Eye,
-  Zap,
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
@@ -899,8 +897,8 @@ export default function CVAnalysisDisplay({
                             konten Anda
                           </li>
                           <li>
-                            • Gunakan akronim dan bentuk lengkap (misalnya, "AI"
-                            dan "Kecerdasan Buatan")
+                            • Gunakan akronim dan bentuk lengkap (misalnya, &quot;AI&quot;
+                            dan &quot;Kecerdasan Buatan&quot;)
                           </li>
                           <li>
                             • Cocokkan kata kunci dari deskripsi pekerjaan yang
@@ -918,11 +916,11 @@ export default function CVAnalysisDisplay({
                             your content
                           </li>
                           <li>
-                            • Use both acronyms and full forms (e.g., "AI" and
-                            "Artificial Intelligence")
+                            • Use both acronyms and full forms (e.g., &quot;AI&quot; and
+                            &quot;Artificial Intelligence&quot;)
                           </li>
                           <li>
-                            • Match keywords from job descriptions you're
+                            • Match keywords from job descriptions you&apos;re
                             applying to
                           </li>
                           <li>
@@ -1021,7 +1019,7 @@ export default function CVAnalysisDisplay({
                       </h4>
                       <div className="space-y-2">
                         {Object.entries(analysisResult.aspects)
-                          .filter(([_, aspect]) => aspect.score >= 80)
+                          .filter(([, aspect]) => aspect.score >= 80)
                           .map(([key, aspect]) => (
                             <div key={key} className="text-green-800 text-sm">
                               <div className="font-medium">
