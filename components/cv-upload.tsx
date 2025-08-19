@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Progress } from '@/components/ui/progress'
 import { Upload, FileText, Loader2 } from 'lucide-react'
+import CVAnalysisDisplay from '@/components/cv-analysis'
 
 export default function CVUpload() {
   const [file, setFile] = useState<File | null>(null)
@@ -181,7 +182,7 @@ export default function CVUpload() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
+    <div className="w-full max-w-7xl mx-auto px-4 space-y-6">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -306,6 +307,16 @@ export default function CVUpload() {
           )}
         </CardContent>
       </Card>
+
+      {/* AI CV Analysis Section */}
+      {extractedText && !extractedText.startsWith('❌') && (
+        <CVAnalysisDisplay 
+          cvText={extractedText}
+          onAnalysisComplete={(result) => {
+            console.log('Analysis completed:', result)
+          }}
+        />
+      )}
     </div>
   )
 }

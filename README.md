@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI CV Analyzer 🤖📄
 
-## Getting Started
+Aplikasi Next.js untuk menganalisis CV menggunakan OCR dan AI. Upload file PDF atau gambar, ekstrak teks, dan dapatkan analisis komprehensif menggunakan OpenAI.
 
-First, run the development server:
+## ✨ Fitur
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- 📄 **Upload PDF & Gambar**: Drag & drop atau klik untuk upload CV dalam format PDF, PNG, JPG
+- 🔍 **OCR Text Extraction**: Ekstrak teks dari PDF dan gambar menggunakan Tesseract.js
+- 🤖 **AI Analysis**: Analisis CV comprehensive menggunakan OpenAI dengan 12 aspek penilaian
+- 📊 **Scoring System**: Skor 0-100 untuk setiap aspek dengan feedback detail
+- 💡 **Action Points**: Rekomendasi perbaikan spesifik untuk setiap aspek
+- 🎯 **Career Recommendation**: Saran karir berdasarkan profil CV
+- 🔑 **Keywords Extraction**: Identifikasi keywords penting untuk ATS optimization
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎯 12 Aspek Analisis CV
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Overall Impression** - Kesan pertama dan kualitas keseluruhan
+2. **Contact Information** - Kelengkapan dan profesionalitas kontak
+3. **Relevant Skills** - Relevansi, spesifisitas, dan optimasi keyword
+4. **Professional Summary** - Kualitas dan dampak summary/objective
+5. **Work Experience** - Kejelasan, relevansi, dan detail pengalaman kerja
+6. **Achievements** - Pencapaian terukur dan accomplishments
+7. **Education & Certification** - Latar belakang pendidikan dan sertifikasi
+8. **Organizational Activity** - Aktivitas organisasi, volunteer, leadership
+9. **Consistent & Error-free Writing** - Grammar, formatting, konsistensi
+10. **Additional Section** - Portfolio, bahasa, minat, dan bagian relevan lainnya
+11. **Keywords** - Optimasi ATS dan keywords industri
+12. **Career Recommendation** - Saran jalur karir dan perbaikan
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Quick Start
 
-## Learn More
+### Prerequisites
 
-To learn more about Next.js, take a look at the following resources:
+- Node.js 18+
+- OpenAI API Key
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-## Deploy on Vercel
+2. **Setup Environment Variables**
+   ```bash
+   cp .env.example .env.local
+   ```
+   
+   Edit `.env.local` dan tambahkan OpenAI API key:
+   ```env
+   OPENAI_API_KEY=sk-your-actual-openai-api-key-here
+   OPENAI_MODEL=gpt-4o-mini
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Run Development Server**
+   ```bash
+   npm run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. **Open Browser**
+   ```
+   http://localhost:3000
+   ```
+
+## 💰 OpenAI Costs
+
+- **gpt-4o-mini**: ~$0.01-0.03 per analysis (recommended)
+- **gpt-4**: ~$0.10-0.30 per analysis (premium)
+
+## 🔒 Privacy & Security
+
+- ✅ Client-side OCR processing
+- ✅ No CV data storage
+- ✅ Secure OpenAI API integration
