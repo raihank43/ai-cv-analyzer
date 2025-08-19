@@ -53,7 +53,7 @@ Kembalikan analisis Anda dalam format JSON berikut:
     },
     // ... (struktur serupa untuk semua aspek lainnya)
   },
-  "careerRecommendation": "Berdasarkan latar belakang Anda, Anda akan unggul dalam peran seperti...",
+  "careerRecommendation": "Berdasarkan analisis mendalam CV Anda, berikut adalah rekomendasi karier yang komprehensif. [Berikan analisis 4-6 kalimat yang mencakup: 1) Posisi/peran yang paling cocok berdasarkan kekuatan, 2) Industri atau sektor yang direkomendasikan, 3) Jalur karier jangka pendek dan menengah, 4) Saran spesifik untuk meningkatkan daya saing di pasar kerja Indonesia/internasional, 5) Area fokus pengembangan skill untuk mencapai target karier]",
   "extractedKeywords": {
     "jobTitles": ["Software Engineer", "Developer"],
     "skills": ["JavaScript", "React", "Node.js"],
@@ -113,7 +113,7 @@ Return your analysis in the following JSON format:
     },
     // ... (similar structure for all other aspects)
   },
-  "careerRecommendation": "Based on your background, you would excel in roles such as...",
+  "careerRecommendation": "Based on comprehensive analysis of your CV, here is a detailed career recommendation. [Provide 4-6 sentences covering: 1) Most suitable positions/roles based on strengths, 2) Recommended industries or sectors, 3) Short-term and medium-term career paths, 4) Specific advice to improve competitiveness in Indonesian/international job market, 5) Focus areas for skill development to achieve career targets]",
   "extractedKeywords": {
     "jobTitles": ["Software Engineer", "Developer"],
     "skills": ["JavaScript", "React", "Node.js"],

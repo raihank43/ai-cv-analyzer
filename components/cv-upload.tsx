@@ -267,7 +267,7 @@ export default function CVUpload() {
           )}
 
           {/* Extracted Text */}
-          {extractedText && (
+          {/* {extractedText && (
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -304,7 +304,7 @@ export default function CVUpload() {
                 </div>
               </CardContent>
             </Card>
-          )}
+          )} */}
         </CardContent>
       </Card>
 
