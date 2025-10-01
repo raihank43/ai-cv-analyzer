@@ -2,11 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import { CVAnalysisResult } from "@/types/cv-analysis";
 
-const openai = new OpenAI({
-  baseURL: "https://openrouter.ai/api/v1",
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 const ANALYSIS_PROMPT_ID = `
 Anda adalah seorang ahli peninjau CV/Resume yang mengkhususkan diri pada pasar kerja Indonesia dan internasional.
 
@@ -149,6 +144,12 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
+
+    // Initialize OpenAI client inside the function to avoid build-time errors
+    const openai = new OpenAI({
+      baseURL: "https://openrouter.ai/api/v1",
+      apiKey: process.env.OPENAI_API_KEY,
+    });
 
     const startTime = Date.now();
 
