@@ -1,10 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server'
-import OpenAI from 'openai'
-import { CVAnalysisResult } from '@/types/cv-analysis'
+import { NextRequest, NextResponse } from "next/server";
+import OpenAI from "openai";
+import { CVAnalysisResult } from "@/types/cv-analysis";
 
 const openai = new OpenAI({
+  baseURL: "https://openrouter.ai/api/v1",
   apiKey: process.env.OPENAI_API_KEY,
-})
+});
 
 const ANALYSIS_PROMPT_ID = `
 Anda adalah seorang ahli peninjau CV/Resume yang mengkhususkan diri pada pasar kerja Indonesia dan internasional.
@@ -64,7 +65,7 @@ Kembalikan analisis Anda dalam format JSON berikut:
 }
 
 Teks CV yang akan dianalisis:
-`
+`;
 
 const ANALYSIS_PROMPT_EN = `
 You are an expert CV/Resume reviewer specializing in Indonesian and international job markets.
@@ -124,116 +125,127 @@ Return your analysis in the following JSON format:
 }
 
 CV Text to analyze:
-`
+`;
 
 export async function POST(request: NextRequest) {
   try {
-    const { cvText, targetRole, industry, language = 'en' } = await request.json()
+    const {
+      cvText,
+      targetRole,
+      industry,
+      language = "en",
+    } = await request.json();
 
     if (!cvText || cvText.trim().length === 0) {
       return NextResponse.json(
-        { error: 'CV text is required for analysis' },
+        { error: "CV text is required for analysis" },
         { status: 400 }
-      )
+      );
     }
 
     if (!process.env.OPENAI_API_KEY) {
       return NextResponse.json(
-        { error: 'OpenAI API key not configured' },
+        { error: "OpenAI API key not configured" },
         { status: 500 }
-      )
+      );
     }
 
-    const startTime = Date.now()
+    const startTime = Date.now();
 
     // Select prompt based on language
-    const basePrompt = language === 'id' ? ANALYSIS_PROMPT_ID : ANALYSIS_PROMPT_EN
-    
+    const basePrompt =
+      language === "id" ? ANALYSIS_PROMPT_ID : ANALYSIS_PROMPT_EN;
+
     // Enhance prompt with target role and industry if provided
-    let enhancedPrompt = basePrompt
+    let enhancedPrompt = basePrompt;
     if (targetRole) {
-      enhancedPrompt += language === 'id' 
-        ? `\n\nPosisi Target: ${targetRole}`
-        : `\n\nTarget Role: ${targetRole}`
+      enhancedPrompt +=
+        language === "id"
+          ? `\n\nPosisi Target: ${targetRole}`
+          : `\n\nTarget Role: ${targetRole}`;
     }
     if (industry) {
-      enhancedPrompt += language === 'id'
-        ? `\nIndustri Target: ${industry}`
-        : `\nTarget Industry: ${industry}`
+      enhancedPrompt +=
+        language === "id"
+          ? `\nIndustri Target: ${industry}`
+          : `\nTarget Industry: ${industry}`;
     }
-    enhancedPrompt += `\n\n${cvText}`
+    enhancedPrompt += `\n\n${cvText}`;
 
     const completion = await openai.chat.completions.create({
-      model: process.env.OPENAI_MODEL || 'gpt-5-mini',
+      model: process.env.OPENAI_MODEL || "gpt-5-mini",
       messages: [
         {
-          role: 'system',
-          content: language === 'id' 
-            ? 'Anda adalah ahli peninjau CV. Selalu berikan respons dalam format JSON yang valid sesuai spesifikasi dan gunakan bahasa Indonesia.'
-            : 'You are an expert CV reviewer. Always respond with valid JSON format as specified and use English language.'
+          role: "system",
+          content:
+            language === "id"
+              ? "Anda adalah ahli peninjau CV. Selalu berikan respons dalam format JSON yang valid sesuai spesifikasi dan gunakan bahasa Indonesia."
+              : "You are an expert CV reviewer. Always respond with valid JSON format as specified and use English language.",
         },
         {
-          role: 'user',
-          content: enhancedPrompt
-        }
+          role: "user",
+          content: enhancedPrompt,
+        },
       ],
-    //   temperature: 0.7,
-    //   max_completion_tokens: 6000,
-    })
+      //   temperature: 0.7,
+      //   max_completion_tokens: 6000,
+    });
 
-    const responseText = completion.choices[0]?.message?.content
+    const responseText = completion.choices[0]?.message?.content;
     if (!responseText) {
-      throw new Error('No response from OpenAI')
+      throw new Error("No response from OpenAI");
     }
 
-    let analysisResult: CVAnalysisResult
+    let analysisResult: CVAnalysisResult;
     try {
       // Extract JSON from response (in case there's extra text)
-      const jsonMatch = responseText.match(/\{[\s\S]*\}/)
-      const jsonString = jsonMatch ? jsonMatch[0] : responseText
-      analysisResult = JSON.parse(jsonString)
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      const jsonString = jsonMatch ? jsonMatch[0] : responseText;
+      analysisResult = JSON.parse(jsonString);
     } catch (parseError) {
-      console.error('JSON parsing error:', parseError)
-      console.error('Raw response:', responseText)
-      throw new Error('Failed to parse OpenAI response as JSON')
+      console.error("JSON parsing error:", parseError);
+      console.error("Raw response:", responseText);
+      throw new Error("Failed to parse OpenAI response as JSON");
     }
 
-    const processingTime = Date.now() - startTime
-    analysisResult.processingTime = processingTime
+    const processingTime = Date.now() - startTime;
+    analysisResult.processingTime = processingTime;
 
-    return NextResponse.json(analysisResult)
-
+    return NextResponse.json(analysisResult);
   } catch (error) {
-    console.error('CV Analysis error:', error)
-    
+    console.error("CV Analysis error:", error);
+
     if (error instanceof Error) {
-      if (error.message.includes('API key')) {
+      if (error.message.includes("API key")) {
         return NextResponse.json(
-          { error: 'OpenAI API configuration error' },
+          { error: "OpenAI API configuration error" },
           { status: 401 }
-        )
+        );
       }
-      if (error.message.includes('quota') || error.message.includes('rate limit')) {
+      if (
+        error.message.includes("quota") ||
+        error.message.includes("rate limit")
+      ) {
         return NextResponse.json(
-          { error: 'OpenAI API quota exceeded. Please try again later.' },
+          { error: "OpenAI API quota exceeded. Please try again later." },
           { status: 429 }
-        )
+        );
       }
     }
 
     return NextResponse.json(
-      { error: 'Failed to analyze CV. Please try again.' },
+      { error: "Failed to analyze CV. Please try again." },
       { status: 500 }
-    )
+    );
   }
 }
 
 export async function GET() {
   return NextResponse.json({
-    message: 'CV Analysis API endpoint',
-    status: 'active',
-    supportedMethods: ['POST'],
-    requiredFields: ['cvText'],
-    optionalFields: ['targetRole', 'industry']
-  })
+    message: "CV Analysis API endpoint",
+    status: "active",
+    supportedMethods: ["POST"],
+    requiredFields: ["cvText"],
+    optionalFields: ["targetRole", "industry"],
+  });
 }
